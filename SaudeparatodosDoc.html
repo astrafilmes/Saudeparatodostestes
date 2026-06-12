@@ -1,0 +1,1352 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Saúde para Todos — Enterprise Architecture Constitution v2.0</title>
+  <meta name="description" content="Documento-mestre SSoT da plataforma Saúde para Todos.">
+  <style>
+:root {
+  --bg: #f6f7fb;
+  --paper: #ffffff;
+  --text: #172033;
+  --muted: #667085;
+  --border: #e5e7eb;
+  --accent: #4338ca;
+  --accent-soft: #eef2ff;
+  --code-bg: #0f172a;
+  --code-text: #e5e7eb;
+  --quote-bg: #f8fafc;
+  --shadow: 0 24px 80px rgba(15, 23, 42, 0.10);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(67, 56, 202, .10), transparent 32rem),
+    radial-gradient(circle at top right, rgba(223, 255, 47, .18), transparent 28rem),
+    var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.68;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 300px) minmax(0, 980px);
+  gap: 28px;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 32px 28px 56px;
+}
+.sidebar {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  padding: 22px 18px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .74);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(15,23,42,.05);
+}
+.sidebar-title {
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -.02em;
+  margin: 0 0 10px;
+}
+.sidebar-subtitle {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 18px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.toc { display: flex; flex-direction: column; gap: 3px; }
+.toc a {
+  display: block;
+  padding: 7px 10px;
+  color: #344054;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.toc a:hover { background: var(--accent-soft); color: var(--accent); }
+.toc-l1 { font-weight: 800; }
+.toc-l2 { padding-left: 14px !important; font-weight: 650; }
+.toc-l3 { padding-left: 26px !important; color: #667085 !important; }
+.document {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 32px;
+  padding: 58px min(6vw, 74px);
+  box-shadow: var(--shadow);
+}
+.document > h1:first-child {
+  margin-top: 0;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+}
+h1, h2, h3, h4 {
+  color: #111827;
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+  scroll-margin-top: 30px;
+}
+h1 { font-size: clamp(2rem, 4vw, 3.35rem); margin: 0 0 24px; }
+h2 { font-size: clamp(1.55rem, 2.6vw, 2.25rem); margin: 54px 0 18px; padding-top: 10px; }
+h3 { font-size: clamp(1.20rem, 2vw, 1.55rem); margin: 34px 0 12px; }
+h4 { font-size: 1.05rem; margin: 26px 0 10px; }
+.heading-anchor {
+  float: left;
+  margin-left: -1.05em;
+  padding-right: .28em;
+  color: transparent;
+  text-decoration: none;
+  font-weight: 700;
+}
+h1:hover .heading-anchor, h2:hover .heading-anchor, h3:hover .heading-anchor, h4:hover .heading-anchor {
+  color: var(--accent);
+}
+p { margin: 12px 0; }
+strong { color: #111827; font-weight: 800; }
+em { color: #344054; }
+a { color: var(--accent); text-underline-offset: 3px; }
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 34px 0;
+}
+blockquote {
+  margin: 22px 0;
+  padding: 18px 22px;
+  border-left: 5px solid var(--accent);
+  background: var(--quote-bg);
+  border-radius: 0 18px 18px 0;
+  color: #344054;
+}
+blockquote p { margin: 6px 0; }
+ul, ol { padding-left: 1.5rem; }
+li { margin: 5px 0; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 22px 0 30px;
+  overflow: hidden;
+  border-radius: 16px;
+  font-size: 14px;
+  display: block;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+thead { background: #f9fafb; }
+th, td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+th {
+  font-size: 12px;
+  color: #475467;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+tr:last-child td { border-bottom: 0; }
+code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: .92em;
+  background: #f2f4f7;
+  color: #101828;
+  border: 1px solid #eaecf0;
+  border-radius: 7px;
+  padding: 2px 6px;
+}
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 18px 20px;
+  border-radius: 18px;
+  overflow-x: auto;
+  margin: 20px 0 28px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+pre code {
+  background: transparent;
+  color: inherit;
+  border: 0;
+  padding: 0;
+  font-size: 13px;
+}
+.task-list-item { list-style: none; }
+.task-list-item input { margin-left: -1.4rem; margin-right: .45rem; }
+.callout {
+  margin: 0 0 28px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #713f12;
+  font-size: 14px;
+}
+.footer {
+  margin-top: 54px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+@media (max-width: 980px) {
+  .layout { display: block; padding: 18px; }
+  .sidebar { position: relative; top: 0; max-height: none; margin-bottom: 18px; }
+  .document { padding: 32px 22px; border-radius: 24px; }
+  .heading-anchor { display: none; }
+  th, td { white-space: normal; }
+}
+@media print {
+  body { background: white; }
+  .layout { display: block; max-width: none; padding: 0; }
+  .sidebar { display: none; }
+  .document { box-shadow: none; border: 0; border-radius: 0; padding: 0; }
+  a { color: inherit; text-decoration: none; }
+  pre { white-space: pre-wrap; }
+}
+</style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Índice">
+      <p class="sidebar-title">Saúde para Todos</p>
+      <p class="sidebar-subtitle">Enterprise Constitution v2.0</p>
+      <nav class="toc">
+        <a class="toc-l1" href="#saude-para-todos-enterprise-architecture-constitution-v20">SAÚDE PARA TODOS — ENTERPRISE ARCHITECTURE CONSTITUTION v2.0</a>
+<a class="toc-l2" href="#sumario-executivo">SUMÁRIO EXECUTIVO</a>
+<a class="toc-l2" href="#indice">ÍNDICE</a>
+<a class="toc-l2" href="#1-visao-geral-e-personas">1. VISÃO GERAL E PERSONAS</a>
+<a class="toc-l3" href="#11-os-5-pilares">1.1 Os 5 Pilares</a>
+<a class="toc-l3" href="#12-dominios-de-negocio">1.2 Domínios de Negócio</a>
+<a class="toc-l2" href="#2-stack-oficial-e-travamento-de-versoes">2. STACK OFICIAL E TRAVAMENTO DE VERSÕES</a>
+<a class="toc-l3" href="#21-stack">2.1 Stack</a>
+<a class="toc-l3" href="#22-travamento-packagejson">2.2 Travamento (package.json)</a>
+<a class="toc-l3" href="#23-proibicoes">2.3 Proibições</a>
+<a class="toc-l2" href="#3-estrutura-de-pastas-canonica">3. ESTRUTURA DE PASTAS CANÔNICA</a>
+<a class="toc-l2" href="#4-design-system-constitutional">4. DESIGN SYSTEM CONSTITUTIONAL</a>
+<a class="toc-l3" href="#41-tokens-semanticos-css-srcstylescss">4.1 Tokens Semânticos (CSS — src/styles.css)</a>
+<a class="toc-l3" href="#42-regras-estritas-bloqueadas-no-eslint">4.2 Regras Estritas (bloqueadas no ESLint)</a>
+<a class="toc-l2" href="#5-app-shell-layout-nativo">5. APP SHELL — LAYOUT NATIVO</a>
+<a class="toc-l2" href="#6-roteamento">6. ROTEAMENTO</a>
+<a class="toc-l3" href="#61-convencao">6.1 Convenção</a>
+<a class="toc-l3" href="#62-rbac-nas-rotas">6.2 RBAC nas Rotas</a>
+<a class="toc-l2" href="#7-gestao-de-estado-regra-de-ouro">7. GESTÃO DE ESTADO — REGRA DE OURO</a>
+<a class="toc-l3" href="#71-matriz-de-decisao">7.1 Matriz de Decisão</a>
+<a class="toc-l3" href="#72-zustand-padrao">7.2 Zustand — Padrão</a>
+<a class="toc-l3" href="#73-xstate-fluxo-de-agendamento-canonico">7.3 XState — Fluxo de Agendamento (canônico)</a>
+<a class="toc-l3" href="#74-react-hook-form-zod">7.4 react-hook-form + Zod</a>
+<a class="toc-l2" href="#8-arquitetura-offline-first">8. ARQUITETURA OFFLINE-FIRST</a>
+<a class="toc-l3" href="#81-principio">8.1 Princípio</a>
+<a class="toc-l3" href="#82-camadas">8.2 Camadas</a>
+<a class="toc-l3" href="#83-pglite-schema-espelho">8.3 PGlite — Schema Espelho</a>
+<a class="toc-l3" href="#84-outbox-sync">8.4 Outbox + Sync</a>
+<a class="toc-l3" href="#85-pwa-shell-cache">8.5 PWA — Shell Cache</a>
+<a class="toc-l3" href="#86-indicador-de-rede">8.6 Indicador de Rede</a>
+<a class="toc-l2" href="#9-camada-de-dados-supabase">9. CAMADA DE DADOS SUPABASE</a>
+<a class="toc-l3" href="#91-clientes">9.1 Clientes</a>
+<a class="toc-l3" href="#92-rls-template-obrigatorio">9.2 RLS — Template Obrigatório</a>
+<a class="toc-l2" href="#10-autenticacao-e-autorizacao">10. AUTENTICAÇÃO E AUTORIZAÇÃO</a>
+<a class="toc-l3" href="#101-camadas">10.1 Camadas</a>
+<a class="toc-l3" href="#102-hard-rules">10.2 Hard Rules</a>
+<a class="toc-l2" href="#11-workflow-de-banco-de-dados">11. WORKFLOW DE BANCO DE DADOS</a>
+<a class="toc-l3" href="#111-principio">11.1 Princípio</a>
+<a class="toc-l3" href="#112-fluxo-diario">11.2 Fluxo Diário</a>
+<a class="toc-l3" href="#113-migration-anatomia-obrigatoria">11.3 Migration — Anatomia Obrigatória</a>
+<a class="toc-l3" href="#114-tipagem-sincronizada">11.4 Tipagem Sincronizada</a>
+<a class="toc-l2" href="#12-hard-gates-husky-lint-staged-eslint-customizado">12. HARD GATES — HUSKY + LINT-STAGED + ESLINT CUSTOMIZADO</a>
+<a class="toc-l3" href="#121-huskypre-commit">12.1 .husky/pre-commit</a>
+<a class="toc-l3" href="#122-huskycommit-msg">12.2 .husky/commit-msg</a>
+<a class="toc-l3" href="#123-lint-stagedconfigjs">12.3 lint-staged.config.js</a>
+<a class="toc-l3" href="#124-eslint-customizado-eslintconfigjs">12.4 ESLint Customizado (eslint.config.js)</a>
+<a class="toc-l3" href="#125-scripts-de-validacao">12.5 Scripts de Validação</a>
+<a class="toc-l2" href="#13-pipeline-cicd">13. PIPELINE CI/CD</a>
+<a class="toc-l3" href="#131-githubworkflowsciyml-esqueleto-canonico">13.1 .github/workflows/ci.yml (esqueleto canônico)</a>
+<a class="toc-l3" href="#132-branch-protection">13.2 Branch Protection</a>
+<a class="toc-l3" href="#133-cobertura-minima">13.3 Cobertura Mínima</a>
+<a class="toc-l2" href="#14-telemetria-e-observabilidade">14. TELEMETRIA E OBSERVABILIDADE</a>
+<a class="toc-l3" href="#141-sentry-bootstrap">14.1 Sentry — Bootstrap</a>
+<a class="toc-l3" href="#142-errorboundary-obrigatorio-em-toda-rota">14.2 ErrorBoundary obrigatório em toda rota</a>
+<a class="toc-l3" href="#143-mascaramento-de-pii-srctelemetrymaskts">14.3 Mascaramento de PII (src/telemetry/mask.ts)</a>
+<a class="toc-l3" href="#144-metricas-adicionais">14.4 Métricas adicionais</a>
+<a class="toc-l2" href="#15-gestao-de-dependencias">15. GESTÃO DE DEPENDÊNCIAS</a>
+<a class="toc-l2" href="#16-seguranca-aplicacional">16. SEGURANÇA APLICACIONAL</a>
+<a class="toc-l3" href="#161-headers-cloudflare-workers-srcserverts">16.1 Headers (Cloudflare Workers — src/server.ts)</a>
+<a class="toc-l3" href="#162-secrets">16.2 Secrets</a>
+<a class="toc-l2" href="#17-lgpd-auditoria-mascaramento">17. LGPD, AUDITORIA, MASCARAMENTO</a>
+<a class="toc-l3" href="#171-audit-logs-imutavel">17.1 audit_logs — Imutável</a>
+<a class="toc-l3" href="#172-consentimento">17.2 Consentimento</a>
+<a class="toc-l3" href="#173-mascaramento-ui">17.3 Mascaramento UI</a>
+<a class="toc-l2" href="#18-19-modulos">18-19. MÓDULOS</a>
+<a class="toc-l2" href="#20-ui-kit-contratos">20. UI-KIT — CONTRATOS</a>
+<a class="toc-l2" href="#21-performance-budget">21. PERFORMANCE BUDGET</a>
+<a class="toc-l2" href="#22-acessibilidade-wcag-22-aa">22. ACESSIBILIDADE — WCAG 2.2 AA</a>
+<a class="toc-l2" href="#23-internacionalizacao">23. INTERNACIONALIZAÇÃO</a>
+<a class="toc-l2" href="#24-runbooks">24. RUNBOOKS</a>
+<a class="toc-l3" href="#241-outbox-poison-message">24.1 Outbox poison message</a>
+<a class="toc-l3" href="#242-drift-de-tipos-supabase">24.2 Drift de tipos Supabase</a>
+<a class="toc-l3" href="#243-service-worker-preso">24.3 Service Worker preso</a>
+<a class="toc-l2" href="#25-anti-hallucination-protocol-18-pontos-verificaveis-em-ci">25. ANTI-HALLUCINATION PROTOCOL — 18 PONTOS (VERIFICÁVEIS EM CI)</a>
+<a class="toc-l2" href="#26-glossario-e-referencias">26. GLOSSÁRIO E REFERÊNCIAS</a>
+<a class="toc-l2" href="#anexo-a-catalogo-completo-de-tabelas-colunas-chave-e-dominio">ANEXO A — Catálogo Completo de Tabelas, Colunas-chave e Domínio</a>
+<a class="toc-l2" href="#anexo-b-convencao-de-commits">ANEXO B — Convenção de Commits</a>
+<a class="toc-l2" href="#anexo-c-checklist-de-pr-template-githubpull-request-templatemd">ANEXO C — Checklist de PR (template .github/pull_request_template.md)</a>
+      </nav>
+    </aside>
+    <main class="document">
+      <div class="callout"><strong>Atenção:</strong> este HTML replica o conteúdo do arquivo Markdown original. O próprio documento informa “Classificação: Confidencial — Uso Interno”; publique em link aberto somente se isso for permitido.</div>
+      <h1 id="saude-para-todos-enterprise-architecture-constitution-v20"><a class="heading-anchor" href="#saude-para-todos-enterprise-architecture-constitution-v20" aria-label="Link para SAÚDE PARA TODOS — ENTERPRISE ARCHITECTURE CONSTITUTION v2.0">#</a>SAÚDE PARA TODOS — ENTERPRISE ARCHITECTURE CONSTITUTION v2.0</h1>
+<blockquote>
+<p>Documento-mestre — <strong>Single Source of Truth (SSoT)</strong> — Junho/2026
+Substitui: <code>saude-para-todos-MASTER-ARCHITECTURE.md</code> (v1.0)
+Audiência: Engenharia, Produto, Segurança, DPO, SRE, QA, Design System.
+Classificação: Confidencial — Uso Interno.
+Status: <strong>MANDATÓRIO</strong> — qualquer desvio exige RFC aprovado pelo Tech Lead + Security Officer.</p>
+</blockquote>
+<hr />
+<h2 id="sumario-executivo"><a class="heading-anchor" href="#sumario-executivo" aria-label="Link para SUMÁRIO EXECUTIVO">#</a>SUMÁRIO EXECUTIVO</h2>
+<p>A plataforma <strong>Saúde para Todos</strong> é um sistema multi-perfil (Cidadão, ACS, Profissional de Saúde, Gestor, Admin) de gestão de saúde pública e cuidado contínuo, construído sobre <strong>TanStack Start v1 + React 19 + Supabase (Lovable Cloud) + Cloudflare Workers</strong>.</p>
+<p>Esta v2.0 incorpora a <strong>Análise Crítica de Falhas Arquiteturais</strong> (Estado Cliente, Offline-First, Hard Gates de CI/CD, Workflow de Migrações, Telemetria e Gestão de Dependências) e converte recomendações em <strong>bloqueios de compilação</strong> e <strong>invariantes de runtime</strong>.</p>
+<p><strong>Princípios fundadores (não-negociáveis):</strong></p>
+<ol>
+<li><strong>Zero-Trust por padrão</strong> — RLS sempre ligado, <code>service_role</code> nunca cruza fronteira cliente.</li>
+<li><strong>Zero-Crash Policy</strong> — toda rota tem <code>errorComponent</code> + <code>notFoundComponent</code>; toda exceção é reportada ao Sentry antes do fallback.</li>
+<li><strong>Offline-First</strong> — ACS opera em campo sem rede; UI nunca depende de conectividade contínua.</li>
+<li><strong>Anti-Hallucination = Hard Gate</strong> — design tokens, RLS e tipagem são validados em pre-commit e CI, não por revisão humana.</li>
+<li><strong>LGPD by Design</strong> — PII mascarada por padrão, <code>audit_logs</code> imutável, consentimento versionado.</li>
+<li><strong>CLS = 0.00</strong> — toda transição usa <code>useTransition</code> + Skeletons dimensionados.</li>
+</ol>
+<hr />
+<h2 id="indice"><a class="heading-anchor" href="#indice" aria-label="Link para ÍNDICE">#</a>ÍNDICE</h2>
+<ol>
+<li>Visão Geral e Personas</li>
+<li>Stack Oficial e Travamento de Versões</li>
+<li>Estrutura de Pastas Canônica</li>
+<li>Design System Constitucional (tokens, geometria, tipografia)</li>
+<li>App Shell e Layout Nativo (h-[100dvh])</li>
+<li>Roteamento (TanStack Router + RBAC)</li>
+<li><strong>Gestão de Estado — Servidor (TanStack Query) vs Cliente (Zustand/XState)</strong></li>
+<li><strong>Arquitetura Offline-First (PWA + PGlite + Sync Queue)</strong></li>
+<li>Camada de Dados Supabase (clientes, RLS, GRANTs)</li>
+<li>Autenticação e Autorização (RBAC + Permissões granulares)</li>
+<li>Workflow de Banco de Dados (CLI, Migrations, Tipagem)</li>
+<li><strong>Hard Gates: Husky, lint-staged, ESLint Customizado</strong></li>
+<li><strong>Pipeline CI/CD (GitHub Actions, Vitest 80%, Playwright)</strong></li>
+<li><strong>Telemetria, Observabilidade e Sentry</strong></li>
+<li>Gestão de Dependências (pnpm exclusivo, engine-strict)</li>
+<li>Segurança Aplicacional (CSP, headers, secrets)</li>
+<li>LGPD, Auditoria e Mascaramento de PII</li>
+<li>Módulos Clínicos (Saúde, Nutrição, Imuniza, Mental, Família, Gestante, Cuidado)</li>
+<li>Módulos de Gestão (Pro, Gestão, Território)</li>
+<li>Componentes UI-Kit (catálogo e contratos)</li>
+<li>Performance Budget e Web Vitals</li>
+<li>Acessibilidade (WCAG 2.2 AA)</li>
+<li>Internacionalização e Conteúdo</li>
+<li>Runbooks de Incidentes</li>
+<li>Anti-Hallucination Protocol (18 pontos verificáveis)</li>
+<li>Glossário e Referências</li>
+</ol>
+<hr />
+<h2 id="1-visao-geral-e-personas"><a class="heading-anchor" href="#1-visao-geral-e-personas" aria-label="Link para 1. VISÃO GERAL E PERSONAS">#</a>1. VISÃO GERAL E PERSONAS</h2>
+<h3 id="11-os-5-pilares"><a class="heading-anchor" href="#11-os-5-pilares" aria-label="Link para 1.1 Os 5 Pilares">#</a>1.1 Os 5 Pilares</h3>
+<table>
+<thead>
+<tr>
+  <th>Perfil</th>
+  <th>Rota raiz</th>
+  <th>Responsabilidade primária</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Cidadão</td>
+  <td><code>/</code></td>
+  <td>Prontuário pessoal, agendamentos, módulos clínicos</td>
+</tr>
+<tr>
+  <td>ACS (Agente Comunitário)</td>
+  <td><code>/territorio/*</code></td>
+  <td>Busca ativa, mapa, cadastro em campo (offline)</td>
+</tr>
+<tr>
+  <td>Profissional de Saúde</td>
+  <td><code>/pro/*</code></td>
+  <td>Atendimento, prescrição, aplicação de vacinas</td>
+</tr>
+<tr>
+  <td>Gestor</td>
+  <td><code>/gestao/*</code></td>
+  <td>Relatórios, equipe, agendamentos, feature flags</td>
+</tr>
+<tr>
+  <td>Admin</td>
+  <td><code>/gestao/usuarios</code>, <code>/gestao/templates-permissao</code></td>
+  <td>RBAC, auditoria, diagnóstico</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-dominios-de-negocio"><a class="heading-anchor" href="#12-dominios-de-negocio" aria-label="Link para 1.2 Domínios de Negócio">#</a>1.2 Domínios de Negócio</h3>
+<ul>
+<li><strong>Identidade</strong>: <code>profiles</code>, <code>user_roles</code>, <code>patient_profiles</code>, <code>permissions</code>, <code>role_permissions</code>, <code>user_permissions</code>, <code>permission_templates</code>.</li>
+<li><strong>Cuidado</strong>: <code>appointments</code>, <code>vaccination_records</code>, <code>chronic_medications</code>, <code>chronic_medication_intakes</code>, <code>mental_health_logs</code>, <code>nutritional_plans</code>, <code>pregnancy_records</code>, <code>health_care_logs</code>, <code>chronic_care_logs</code>.</li>
+<li><strong>Plataforma</strong>: <code>audit_logs</code>, <code>feature_flags</code>, <code>home_widgets</code>, <code>health_campaigns</code>, <code>ubs</code>, <code>specialties</code>, <code>team_types</code>, <code>acs_agents</code>, <code>family_dependents</code>, <code>medicines_catalog</code>, <code>vaccine_catalog</code>, <code>vaccine_schedule</code>.</li>
+</ul>
+<hr />
+<h2 id="2-stack-oficial-e-travamento-de-versoes"><a class="heading-anchor" href="#2-stack-oficial-e-travamento-de-versoes" aria-label="Link para 2. STACK OFICIAL E TRAVAMENTO DE VERSÕES">#</a>2. STACK OFICIAL E TRAVAMENTO DE VERSÕES</h2>
+<h3 id="21-stack"><a class="heading-anchor" href="#21-stack" aria-label="Link para 2.1 Stack">#</a>2.1 Stack</h3>
+<pre><code>runtime:         Cloudflare Workers (nodejs_compat) + Bun (dev)
+framework:       TanStack Start v1.168.x
+ui:              React 19.x
+build:           Vite 7.x
+estilo:          Tailwind v4 (CSS-first via @import)
+db/auth/storage: Supabase (Lovable Cloud)
+estado-servidor: @tanstack/react-query v5
+estado-cliente:  Zustand 4.x  |  XState 5.x (fluxos)
+formulários:     react-hook-form + Zod
+offline:         vite-plugin-pwa + PGlite (IndexedDB-backed) + dexie (queue)
+telemetria:      @sentry/react + @sentry/tanstackstart-react
+testes:          Vitest 2.x + @testing-library/react + Playwright 1.4x
+qualidade:       ESLint (flat) + Prettier + Husky + lint-staged + commitlint
+pacotes:         pnpm 9.x (exclusivo, engine-strict)
+</code></pre>
+<h3 id="22-travamento-packagejson"><a class="heading-anchor" href="#22-travamento-packagejson" aria-label="Link para 2.2 Travamento (package.json)">#</a>2.2 Travamento (<code>package.json</code>)</h3>
+<pre><code class="language-jsonc">{
+  &quot;packageManager&quot;: &quot;pnpm@9.12.0&quot;,
+  &quot;engines&quot;: {
+    &quot;node&quot;: &quot;&gt;=20.11 &lt;21&quot;,
+    &quot;pnpm&quot;: &quot;&gt;=9.12 &lt;10&quot;
+  },
+  &quot;engineStrict&quot;: true
+}
+</code></pre>
+<p><code>.npmrc</code>:</p>
+<pre><code>engine-strict=true
+package-manager-strict=true
+strict-peer-dependencies=true
+auto-install-peers=false
+</code></pre>
+<h3 id="23-proibicoes"><a class="heading-anchor" href="#23-proibicoes" aria-label="Link para 2.3 Proibições">#</a>2.3 Proibições</h3>
+<ul>
+<li><code>npm install</code> / <code>yarn</code> / <code>bun add</code> em produção → bloqueado por pre-commit (<code>.husky/pre-commit</code> valida lockfile).</li>
+<li>Versões <code>^</code> ou <code>~</code> em dependências críticas (<code>react</code>, <code>@tanstack/*</code>, <code>@supabase/*</code>, <code>vite</code>) → pinadas exatas.</li>
+</ul>
+<hr />
+<h2 id="3-estrutura-de-pastas-canonica"><a class="heading-anchor" href="#3-estrutura-de-pastas-canonica" aria-label="Link para 3. ESTRUTURA DE PASTAS CANÔNICA">#</a>3. ESTRUTURA DE PASTAS CANÔNICA</h2>
+<pre><code>saude-para-todos/
+├─ .github/workflows/         # CI: lint, typecheck, test, e2e, build
+├─ .husky/                    # pre-commit, commit-msg, pre-push
+├─ public/                    # assets estáticos, manifest, sw kill-switch
+├─ src/
+│  ├─ assets/                 # imagens importadas por bundler
+│  ├─ components/
+│  │  ├─ ui/                  # shadcn primitives (não editar libs)
+│  │  ├─ ui-kit/              # primitives próprios (StatusPill, etc.)
+│  │  ├─ layouts/             # MobileLayout, DesktopLayout
+│  │  └─ &lt;feature&gt;/           # componentes por feature
+│  ├─ features/               # casos de uso (Zustand stores + XState machines)
+│  │  ├─ agendamento/
+│  │  │  ├─ machine.ts        # XState máquina do fluxo
+│  │  │  ├─ store.ts          # Zustand UI store
+│  │  │  └─ components/
+│  │  └─ ...
+│  ├─ hooks/                  # hooks compartilhados
+│  ├─ integrations/supabase/  # AUTO-GERADO — não editar
+│  ├─ lib/                    # helpers puros + .functions.ts
+│  ├─ offline/                # PGlite schema, sync queue, conflict resolver
+│  │  ├─ db.ts                # instância PGlite
+│  │  ├─ schema.sql           # espelho do schema crítico
+│  │  └─ sync.ts              # background sync queue
+│  ├─ routes/                 # file-based routing
+│  ├─ stores/                 # Zustand stores globais (theme, modais, network)
+│  ├─ telemetry/              # Sentry init, breadcrumbs, masking
+│  ├─ styles.css              # Tailwind v4 tokens
+│  └─ test/                   # setup Vitest, mocks, fixtures
+├─ supabase/
+│  ├─ migrations/             # IMUTÁVEL — append-only
+│  └─ seed.sql
+├─ tests/
+│  └─ e2e/                    # Playwright specs
+└─ pnpm-lock.yaml             # commit obrigatório
+</code></pre>
+<p><strong>Regra de ouro:</strong> nunca crie <code>src/pages/</code>, <code>app/</code>, ou layouts Next/Remix. O TanStack Router usa <code>src/routes/</code>.</p>
+<hr />
+<h2 id="4-design-system-constitutional"><a class="heading-anchor" href="#4-design-system-constitutional" aria-label="Link para 4. DESIGN SYSTEM CONSTITUTIONAL">#</a>4. DESIGN SYSTEM CONSTITUTIONAL</h2>
+<h3 id="41-tokens-semanticos-css-srcstylescss"><a class="heading-anchor" href="#41-tokens-semanticos-css-srcstylescss" aria-label="Link para 4.1 Tokens Semânticos (CSS — src/styles.css)">#</a>4.1 Tokens Semânticos (CSS — <code>src/styles.css</code>)</h3>
+<p><strong>PROIBIDO</strong> usar hex literal em componentes. Todo cor passa por token.</p>
+<pre><code class="language-css">@import &quot;tailwindcss&quot;;
+
+@theme {
+  /* Paleta base — Saúde para Todos */
+  --color-app-indigo:   oklch(36% 0.22 277);   /* #4338c4 */
+  --color-app-lime:     oklch(96% 0.22 117);   /* #dfff2f */
+  --color-app-lavender: oklch(97% 0.02 295);   /* #f5f3ff */
+  --color-app-pink:     oklch(76% 0.13 10);    /* #ef7b9b */
+  --color-app-mint:     oklch(94% 0.04 175);   /* #e0f6f1 */
+  --color-app-orange:   oklch(72% 0.21 35);    /* #ff704f */
+
+  /* Semânticos */
+  --color-background: var(--color-app-lavender);
+  --color-foreground: oklch(18% 0.04 277);
+  --color-primary:    var(--color-app-indigo);
+  --color-primary-foreground: oklch(99% 0 0);
+  --color-muted:      oklch(96% 0.005 277);
+  --color-muted-foreground: oklch(48% 0.02 277);
+  --color-border:     oklch(92% 0.01 277);
+  --color-ring:       color-mix(in oklch, var(--color-primary) 35%, transparent);
+
+  /* Status (semânticos — NUNCA usar verde/vermelho cru) */
+  --color-status-success: oklch(72% 0.16 155);
+  --color-status-warn:    oklch(82% 0.17 85);
+  --color-status-danger:  oklch(62% 0.22 25);
+  --color-status-info:    oklch(70% 0.13 230);
+  --color-status-process: oklch(66% 0.15 265);
+
+  /* Geometria */
+  --radius-card:  32px;
+  --radius-bento: 24px;
+  --radius-pill:  9999px;
+
+  /* Elevações */
+  --shadow-soft:    0 4px 16px -8px color-mix(in oklch, var(--color-primary) 18%, transparent);
+  --shadow-floating: 0 24px 48px -24px color-mix(in oklch, var(--color-primary) 30%, transparent);
+
+  /* Tipografia */
+  --font-display: &quot;Sora&quot;, &quot;ui-sans-serif&quot;, system-ui;
+  --font-body:    &quot;Manrope&quot;, &quot;ui-sans-serif&quot;, system-ui;
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-background: oklch(12% 0.03 270);    /* #0B1120 */
+    --color-foreground: oklch(96% 0.01 277);
+    --color-muted:      oklch(20% 0.03 270);
+    --color-border:     oklch(28% 0.03 270);
+  }
+}
+</code></pre>
+<h3 id="42-regras-estritas-bloqueadas-no-eslint"><a class="heading-anchor" href="#42-regras-estritas-bloqueadas-no-eslint" aria-label="Link para 4.2 Regras Estritas (bloqueadas no ESLint)">#</a>4.2 Regras Estritas (bloqueadas no ESLint)</h3>
+<ul>
+<li>❌ <code>text-[#…]</code>, <code>bg-[#…]</code>, <code>border-[#…]</code>, <code>shadow-[…]</code> (arbitrários cromáticos)</li>
+<li>❌ Emoji em UI funcional (apenas conteúdo de usuário)</li>
+<li>❌ Ícones de outras libs — somente <code>lucide-react</code> com <code>strokeWidth={1.5}</code></li>
+<li>❌ <code>rounded-md/lg/xl</code> em cards principais — usar <code>rounded-[var(--radius-card)]</code></li>
+<li>✅ Touch targets ≥ 44px (h-11 mínimo em interativos)</li>
+</ul>
+<hr />
+<h2 id="5-app-shell-layout-nativo"><a class="heading-anchor" href="#5-app-shell-layout-nativo" aria-label="Link para 5. APP SHELL — LAYOUT NATIVO">#</a>5. APP SHELL — LAYOUT NATIVO</h2>
+<pre><code class="language-tsx">// src/components/layouts/MobileLayout.tsx
+export function AppShell({ children }: PropsWithChildren) {
+  return (
+    &lt;div className=&quot;fixed inset-0 w-full h-[100dvh] bg-background flex flex-col overflow-hidden&quot;&gt;
+      &lt;Header /&gt;
+      &lt;main className=&quot;flex-1 overflow-y-auto overscroll-none hide-scrollbar relative&quot;&gt;
+        &lt;div className=&quot;w-full max-w-3xl mx-auto px-4 py-6 pb-safe-offset-32&quot;&gt;
+          {children}
+        &lt;/div&gt;
+      &lt;/main&gt;
+      &lt;BottomBar /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p><strong>Invariantes:</strong></p>
+<ul>
+<li>Root sempre <code>h-[100dvh]</code> + <code>overflow-hidden</code>.</li>
+<li>Scroll isolado em <code>&lt;main&gt;</code> com <code>overscroll-none</code> (impede pull-to-refresh quebrar contexto).</li>
+<li><code>pb-safe-offset-32</code> reserva área da BottomBar + safe-area iOS.</li>
+<li><code>hide-scrollbar</code> é utility custom em <code>styles.css</code>.</li>
+</ul>
+<hr />
+<h2 id="6-roteamento"><a class="heading-anchor" href="#6-roteamento" aria-label="Link para 6. ROTEAMENTO">#</a>6. ROTEAMENTO</h2>
+<h3 id="61-convencao"><a class="heading-anchor" href="#61-convencao" aria-label="Link para 6.1 Convenção">#</a>6.1 Convenção</h3>
+<ul>
+<li><code>src/routes/_authenticated/</code> → protegido (gate gerenciado, <code>ssr:false</code>).</li>
+<li><code>src/routes/*.tsx</code> na raiz → público (login, esqueci-senha, reset-senha).</li>
+<li>Rotas dinâmicas: <code>$param</code> (nunca <code>:param</code>).</li>
+<li>Layouts: arquivo pai com <code>&lt;Outlet /&gt;</code>, filho em <code>*.index.tsx</code>.</li>
+</ul>
+<h3 id="62-rbac-nas-rotas"><a class="heading-anchor" href="#62-rbac-nas-rotas" aria-label="Link para 6.2 RBAC nas Rotas">#</a>6.2 RBAC nas Rotas</h3>
+<pre><code class="language-ts">// src/lib/route-guards.ts (já existente)
+beforeLoad: ({ context }) =&gt; requireManagementRoute(context)
+</code></pre>
+<p>Rotas unificadas para citizen + manager: a UI injeta controles condicionalmente via <code>useAuth().role</code>, nunca duplicando rota.</p>
+<hr />
+<h2 id="7-gestao-de-estado-regra-de-ouro"><a class="heading-anchor" href="#7-gestao-de-estado-regra-de-ouro" aria-label="Link para 7. GESTÃO DE ESTADO — REGRA DE OURO">#</a>7. GESTÃO DE ESTADO — REGRA DE OURO</h2>
+<blockquote>
+<p><strong>Servidor = TanStack Query. Cliente efêmero = Zustand. Fluxo multi-etapa = XState. Formulário = react-hook-form + Zod.</strong></p>
+</blockquote>
+<h3 id="71-matriz-de-decisao"><a class="heading-anchor" href="#71-matriz-de-decisao" aria-label="Link para 7.1 Matriz de Decisão">#</a>7.1 Matriz de Decisão</h3>
+<table>
+<thead>
+<tr>
+  <th>Tipo de estado</th>
+  <th>Ferramenta</th>
+  <th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Dados remotos (lista, detalhe, mutação)</td>
+  <td><strong>TanStack Query</strong></td>
+  <td><code>useSuspenseQuery(appointmentsQueryOptions)</code></td>
+</tr>
+<tr>
+  <td>UI global leve (tema, drawer aberto, toast queue, status de rede)</td>
+  <td><strong>Zustand</strong></td>
+  <td><code>useUIStore(s =&gt; s.openCommandPalette)</code></td>
+</tr>
+<tr>
+  <td>Fluxo multi-etapa com estados nomeados (agendamento, anamnese, onboarding)</td>
+  <td><strong>XState</strong></td>
+  <td><code>agendamentoMachine</code></td>
+</tr>
+<tr>
+  <td>Formulário (validação, dirty, submit)</td>
+  <td><strong>react-hook-form + Zod</strong></td>
+  <td><code>useForm({ resolver: zodResolver(schema) })</code></td>
+</tr>
+<tr>
+  <td>Estado local de 1 componente</td>
+  <td><code>useState</code> / <code>useReducer</code></td>
+  <td>toggle de acordeon</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-zustand-padrao"><a class="heading-anchor" href="#72-zustand-padrao" aria-label="Link para 7.2 Zustand — Padrão">#</a>7.2 Zustand — Padrão</h3>
+<pre><code class="language-ts">// src/stores/ui-store.ts
+import { create } from &quot;zustand&quot;;
+import { devtools, persist } from &quot;zustand/middleware&quot;;
+
+interface UIState {
+  commandPaletteOpen: boolean;
+  activeModal: string | null;
+  setCommandPalette: (open: boolean) =&gt; void;
+  openModal: (id: string) =&gt; void;
+  closeModal: () =&gt; void;
+}
+
+export const useUIStore = create&lt;UIState&gt;()(
+  devtools(
+    persist(
+      (set) =&gt; ({
+        commandPaletteOpen: false,
+        activeModal: null,
+        setCommandPalette: (open) =&gt; set({ commandPaletteOpen: open }),
+        openModal: (id) =&gt; set({ activeModal: id }),
+        closeModal: () =&gt; set({ activeModal: null }),
+      }),
+      { name: &quot;spt-ui&quot;, partialize: (s) =&gt; ({ /* nada persistente sensível */ }) },
+    ),
+  ),
+);
+</code></pre>
+<p><strong>Regras Zustand:</strong></p>
+<ul>
+<li>1 store por domínio de UI; nunca um &quot;god store&quot;.</li>
+<li>Seletores sempre via callback: <code>useUIStore(s =&gt; s.x)</code> (evita re-render global).</li>
+<li>Proibido armazenar dados de servidor.</li>
+</ul>
+<h3 id="73-xstate-fluxo-de-agendamento-canonico"><a class="heading-anchor" href="#73-xstate-fluxo-de-agendamento-canonico" aria-label="Link para 7.3 XState — Fluxo de Agendamento (canônico)">#</a>7.3 XState — Fluxo de Agendamento (canônico)</h3>
+<pre><code class="language-ts">// src/features/agendamento/machine.ts
+import { setup, assign } from &quot;xstate&quot;;
+
+export const agendamentoMachine = setup({
+  types: {
+    context: {} as {
+      especialidade?: string;
+      ubs?: string;
+      profissional?: string;
+      slot?: string;
+      erro?: string;
+    },
+    events: {} as
+      | { type: &quot;SELECIONAR_ESPECIALIDADE&quot;; value: string }
+      | { type: &quot;SELECIONAR_UBS&quot;; value: string }
+      | { type: &quot;SELECIONAR_PROFISSIONAL&quot;; value: string }
+      | { type: &quot;SELECIONAR_SLOT&quot;; value: string }
+      | { type: &quot;VOLTAR&quot; }
+      | { type: &quot;CONFIRMAR&quot; }
+      | { type: &quot;RESETAR&quot; },
+  },
+  actions: {
+    setEspecialidade: assign({ especialidade: ({ event }) =&gt; (event as any).value }),
+    /* … */
+  },
+  guards: {
+    podeConfirmar: ({ context }) =&gt;
+      !!(context.especialidade &amp;&amp; context.ubs &amp;&amp; context.profissional &amp;&amp; context.slot),
+  },
+}).createMachine({
+  id: &quot;agendamento&quot;,
+  initial: &quot;especialidade&quot;,
+  context: {},
+  states: {
+    especialidade: { on: { SELECIONAR_ESPECIALIDADE: { target: &quot;ubs&quot;, actions: &quot;setEspecialidade&quot; } } },
+    ubs:           { on: { SELECIONAR_UBS: &quot;profissional&quot;, VOLTAR: &quot;especialidade&quot; } },
+    profissional:  { on: { SELECIONAR_PROFISSIONAL: &quot;slot&quot;, VOLTAR: &quot;ubs&quot; } },
+    slot:          { on: { SELECIONAR_SLOT: &quot;revisao&quot;, VOLTAR: &quot;profissional&quot; } },
+    revisao:       { on: { CONFIRMAR: { target: &quot;submetendo&quot;, guard: &quot;podeConfirmar&quot; }, VOLTAR: &quot;slot&quot; } },
+    submetendo:    { invoke: { src: &quot;criarAgendamento&quot;, onDone: &quot;sucesso&quot;, onError: &quot;erro&quot; } },
+    sucesso:       { type: &quot;final&quot; },
+    erro:          { on: { RESETAR: &quot;especialidade&quot; } },
+  },
+});
+</code></pre>
+<p>Componentes consomem via <code>@xstate/react</code>'s <code>useMachine</code>. <strong>Proibido</strong> simular fluxo multi-etapa com <code>useState</code> aninhado.</p>
+<h3 id="74-react-hook-form-zod"><a class="heading-anchor" href="#74-react-hook-form-zod" aria-label="Link para 7.4 react-hook-form + Zod">#</a>7.4 react-hook-form + Zod</h3>
+<pre><code class="language-ts">const schema = z.object({
+  cpf: z.string().refine(isCPF, &quot;CPF inválido&quot;),
+  nascimento: z.coerce.date(),
+});
+type Form = z.infer&lt;typeof schema&gt;;
+
+const form = useForm&lt;Form&gt;({ resolver: zodResolver(schema), mode: &quot;onBlur&quot; });
+</code></pre>
+<hr />
+<h2 id="8-arquitetura-offline-first"><a class="heading-anchor" href="#8-arquitetura-offline-first" aria-label="Link para 8. ARQUITETURA OFFLINE-FIRST">#</a>8. ARQUITETURA OFFLINE-FIRST</h2>
+<h3 id="81-principio"><a class="heading-anchor" href="#81-principio" aria-label="Link para 8.1 Princípio">#</a>8.1 Princípio</h3>
+<p>Toda leitura crítica para ACS (<code>patient_profiles</code>, <code>family_dependents</code>, <code>vaccination_records</code>, <code>chronic_medications</code>) deve ter <strong>espelho local em PGlite (IndexedDB)</strong>. Mutações em modo offline entram em uma <strong>outbox queue</strong> (Dexie) e são drenadas quando <code>navigator.onLine === true</code>.</p>
+<h3 id="82-camadas"><a class="heading-anchor" href="#82-camadas" aria-label="Link para 8.2 Camadas">#</a>8.2 Camadas</h3>
+<pre><code>┌─ UI ────────────────────────────────────────┐
+│ useSuspenseQuery → queryFn (estratégia)     │
+└─────────────┬───────────────────────────────┘
+              ▼
+   ┌──────────────────────┐
+   │  Strategy Selector    │  online? supabase : pglite
+   └─────────┬─────────────┘
+        │              │
+        ▼              ▼
+   Supabase REST   PGlite (local)
+        │              ▲
+        └──► Sync ─────┘
+             ▲
+   Outbox (Dexie) ──► drainage on online
+</code></pre>
+<h3 id="83-pglite-schema-espelho"><a class="heading-anchor" href="#83-pglite-schema-espelho" aria-label="Link para 8.3 PGlite — Schema Espelho">#</a>8.3 PGlite — Schema Espelho</h3>
+<pre><code class="language-ts">// src/offline/db.ts
+import { PGlite } from &quot;@electric-sql/pglite&quot;;
+import { live } from &quot;@electric-sql/pglite/live&quot;;
+
+export const pg = new PGlite(&quot;idb://spt-offline&quot;, { extensions: { live } });
+
+export async function bootstrapLocalSchema() {
+  await pg.exec(`
+    CREATE TABLE IF NOT EXISTS patient_profiles_cache (
+      user_id UUID PRIMARY KEY,
+      payload JSONB NOT NULL,
+      synced_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+    CREATE TABLE IF NOT EXISTS vaccination_records_cache (
+      id UUID PRIMARY KEY,
+      user_id UUID NOT NULL,
+      payload JSONB NOT NULL,
+      synced_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+    CREATE INDEX IF NOT EXISTS idx_vax_user ON vaccination_records_cache(user_id);
+  `);
+}
+</code></pre>
+<h3 id="84-outbox-sync"><a class="heading-anchor" href="#84-outbox-sync" aria-label="Link para 8.4 Outbox + Sync">#</a>8.4 Outbox + Sync</h3>
+<pre><code class="language-ts">// src/offline/outbox.ts
+import Dexie, { Table } from &quot;dexie&quot;;
+
+export interface OutboxEntry {
+  id?: number;
+  resource: string;          // &quot;vaccination_records&quot;
+  op: &quot;insert&quot; | &quot;update&quot; | &quot;delete&quot;;
+  payload: unknown;
+  client_uuid: string;       // idempotência
+  created_at: number;
+  attempts: number;
+  last_error?: string;
+}
+
+class OutboxDB extends Dexie {
+  entries!: Table&lt;OutboxEntry, number&gt;;
+  constructor() {
+    super(&quot;spt-outbox&quot;);
+    this.version(1).stores({ entries: &quot;++id, resource, created_at, client_uuid&quot; });
+  }
+}
+export const outbox = new OutboxDB();
+</code></pre>
+<pre><code class="language-ts">// src/offline/sync.ts
+export async function drainOutbox() {
+  if (!navigator.onLine) return;
+  const items = await outbox.entries.orderBy(&quot;created_at&quot;).toArray();
+  for (const e of items) {
+    try {
+      await applyToSupabase(e);                        // RLS + idempotência via client_uuid
+      await outbox.entries.delete(e.id!);
+    } catch (err) {
+      await outbox.entries.update(e.id!, {
+        attempts: e.attempts + 1,
+        last_error: (err as Error).message,
+      });
+      if (e.attempts &gt; 5) await reportToSentry(err, { tag: &quot;outbox-poison&quot;, entry: e });
+    }
+  }
+}
+window.addEventListener(&quot;online&quot;, drainOutbox);
+setInterval(drainOutbox, 30_000);
+</code></pre>
+<p><strong>Idempotência:</strong> toda tabela alvo de sync ganha coluna <code>client_uuid UUID UNIQUE</code> (migration dedicada). <code>INSERT</code> usa <code>ON CONFLICT (client_uuid) DO NOTHING</code>.</p>
+<h3 id="85-pwa-shell-cache"><a class="heading-anchor" href="#85-pwa-shell-cache" aria-label="Link para 8.5 PWA — Shell Cache">#</a>8.5 PWA — Shell Cache</h3>
+<ul>
+<li><code>vite-plugin-pwa</code> com <code>generateSW</code>, <code>registerType: &quot;autoUpdate&quot;</code>.</li>
+<li>HTML: <code>NetworkFirst</code>. Assets hashed: <code>CacheFirst</code>.</li>
+<li>Wrapper de registro guardado conforme <code>skill/pwa</code> (não registra em preview, iframe, dev).</li>
+</ul>
+<h3 id="86-indicador-de-rede"><a class="heading-anchor" href="#86-indicador-de-rede" aria-label="Link para 8.6 Indicador de Rede">#</a>8.6 Indicador de Rede</h3>
+<p>Zustand store <code>useNetworkStore</code> expõe <code>online</code>, <code>pendingOutboxCount</code>, <code>lastSyncAt</code>. Componente <code>&lt;NetworkPill /&gt;</code> renderizado no Header.</p>
+<hr />
+<h2 id="9-camada-de-dados-supabase"><a class="heading-anchor" href="#9-camada-de-dados-supabase" aria-label="Link para 9. CAMADA DE DADOS SUPABASE">#</a>9. CAMADA DE DADOS SUPABASE</h2>
+<h3 id="91-clientes"><a class="heading-anchor" href="#91-clientes" aria-label="Link para 9.1 Clientes">#</a>9.1 Clientes</h3>
+<table>
+<thead>
+<tr>
+  <th>Cliente</th>
+  <th>Onde</th>
+  <th>Auth</th>
+  <th>RLS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>@/integrations/supabase/client</code></td>
+  <td>browser, hooks, realtime</td>
+  <td>publishable + sessão</td>
+  <td>sim</td>
+</tr>
+<tr>
+  <td><code>requireSupabaseAuth</code> middleware</td>
+  <td><code>createServerFn</code></td>
+  <td>bearer do usuário</td>
+  <td>sim</td>
+</tr>
+<tr>
+  <td><code>@/integrations/supabase/client.server</code> (<code>supabaseAdmin</code>)</td>
+  <td>server-only, trusted</td>
+  <td>service_role</td>
+  <td><strong>bypass</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Regra:</strong> <code>supabaseAdmin</code> só pode ser importado dentro do <code>.handler()</code> via <code>await import(...)</code> em arquivos <code>.functions.ts</code>.</p>
+<h3 id="92-rls-template-obrigatorio"><a class="heading-anchor" href="#92-rls-template-obrigatorio" aria-label="Link para 9.2 RLS — Template Obrigatório">#</a>9.2 RLS — Template Obrigatório</h3>
+<pre><code class="language-sql">CREATE TABLE public.minha_tabela (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  client_uuid UUID UNIQUE,        -- idempotência offline
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.minha_tabela TO authenticated;
+GRANT ALL ON public.minha_tabela TO service_role;
+
+ALTER TABLE public.minha_tabela ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY &quot;owner_select&quot; ON public.minha_tabela FOR SELECT TO authenticated
+  USING (auth.uid() = user_id);
+CREATE POLICY &quot;owner_write&quot; ON public.minha_tabela FOR INSERT TO authenticated
+  WITH CHECK (auth.uid() = user_id);
+CREATE POLICY &quot;manager_read&quot; ON public.minha_tabela FOR SELECT TO authenticated
+  USING (public.is_manager_or_admin(auth.uid()));
+
+CREATE TRIGGER set_updated_at BEFORE UPDATE ON public.minha_tabela
+  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+</code></pre>
+<hr />
+<h2 id="10-autenticacao-e-autorizacao"><a class="heading-anchor" href="#10-autenticacao-e-autorizacao" aria-label="Link para 10. AUTENTICAÇÃO E AUTORIZAÇÃO">#</a>10. AUTENTICAÇÃO E AUTORIZAÇÃO</h2>
+<h3 id="101-camadas"><a class="heading-anchor" href="#101-camadas" aria-label="Link para 10.1 Camadas">#</a>10.1 Camadas</h3>
+<ol>
+<li><strong>Autenticação</strong> (<code>auth.users</code> + Google OAuth via broker Lovable).</li>
+<li><strong>Role</strong> (<code>user_roles.role app_role</code>) — uma de: <code>cidadao</code>, <code>acs</code>, <code>profissional_saude</code>, <code>gestor</code>, <code>admin</code>.</li>
+<li><strong>Permissão</strong> (<code>has_permission(uid, key)</code>) — granular, com override por usuário e templates.</li>
+<li><strong>Contexto ativo</strong> (<code>active-context.tsx</code>) — ACS/profissional pode atuar sobre um cidadão.</li>
+</ol>
+<h3 id="102-hard-rules"><a class="heading-anchor" href="#102-hard-rules" aria-label="Link para 10.2 Hard Rules">#</a>10.2 Hard Rules</h3>
+<ul>
+<li><strong>NUNCA</strong> armazenar role em <code>profiles</code> ou <code>localStorage</code>.</li>
+<li>Toda checagem de admin chama <code>has_role(uid, 'admin')</code> SECURITY DEFINER.</li>
+<li>Frontend usa <code>usePermissions().can(&quot;permissao.x&quot;)</code> — nunca compara strings hardcoded.</li>
+</ul>
+<hr />
+<h2 id="11-workflow-de-banco-de-dados"><a class="heading-anchor" href="#11-workflow-de-banco-de-dados" aria-label="Link para 11. WORKFLOW DE BANCO DE DADOS">#</a>11. WORKFLOW DE BANCO DE DADOS</h2>
+<h3 id="111-principio"><a class="heading-anchor" href="#111-principio" aria-label="Link para 11.1 Princípio">#</a>11.1 Princípio</h3>
+<p><strong>Nenhuma mutação direta na Lovable Cloud via dashboard.</strong> Toda alteração nasce como arquivo em <code>supabase/migrations/</code>, é aprovada via PR e aplicada via CLI.</p>
+<h3 id="112-fluxo-diario"><a class="heading-anchor" href="#112-fluxo-diario" aria-label="Link para 11.2 Fluxo Diário">#</a>11.2 Fluxo Diário</h3>
+<pre><code class="language-bash"># 1. Subir Supabase local
+pnpm db:start                 # supabase start (docker)
+
+# 2. Criar migration
+pnpm db:new add_client_uuid_to_vaccination
+# → supabase/migrations/20260612120000_add_client_uuid_to_vaccination.sql
+
+# 3. Aplicar local
+pnpm db:reset                 # supabase db reset
+
+# 4. Regenerar tipos
+pnpm db:types                 # supabase gen types typescript --local &gt; src/integrations/supabase/types.ts
+
+# 5. Commit (lock + types + migration juntos)
+git add supabase/migrations src/integrations/supabase/types.ts
+</code></pre>
+<h3 id="113-migration-anatomia-obrigatoria"><a class="heading-anchor" href="#113-migration-anatomia-obrigatoria" aria-label="Link para 11.3 Migration — Anatomia Obrigatória">#</a>11.3 Migration — Anatomia Obrigatória</h3>
+<ol>
+<li><code>CREATE TABLE</code> ou <code>ALTER</code></li>
+<li><code>GRANT</code> para <code>authenticated</code> + <code>service_role</code> (sempre)</li>
+<li><code>ALTER TABLE ... ENABLE ROW LEVEL SECURITY</code></li>
+<li><code>CREATE POLICY</code> (mínimo SELECT owner)</li>
+<li>Trigger <code>set_updated_at</code> se houver <code>updated_at</code></li>
+<li>Comentário no topo descrevendo intenção e ticket</li>
+</ol>
+<p><strong>Validação automática:</strong> script <code>scripts/validate-migrations.mjs</code> (rodado em pre-commit) garante presença de GRANT + RLS em todo <code>CREATE TABLE public.*</code>.</p>
+<h3 id="114-tipagem-sincronizada"><a class="heading-anchor" href="#114-tipagem-sincronizada" aria-label="Link para 11.4 Tipagem Sincronizada">#</a>11.4 Tipagem Sincronizada</h3>
+<ul>
+<li><code>src/integrations/supabase/types.ts</code> é <strong>gerado</strong>, nunca editado à mão.</li>
+<li>CI falha se <code>pnpm db:types --check</code> detectar drift entre migrations e types comitados.</li>
+</ul>
+<hr />
+<h2 id="12-hard-gates-husky-lint-staged-eslint-customizado"><a class="heading-anchor" href="#12-hard-gates-husky-lint-staged-eslint-customizado" aria-label="Link para 12. HARD GATES — HUSKY + LINT-STAGED + ESLINT CUSTOMIZADO">#</a>12. HARD GATES — HUSKY + LINT-STAGED + ESLINT CUSTOMIZADO</h2>
+<h3 id="121-huskypre-commit"><a class="heading-anchor" href="#121-huskypre-commit" aria-label="Link para 12.1 .husky/pre-commit">#</a>12.1 <code>.husky/pre-commit</code></h3>
+<pre><code class="language-bash">#!/usr/bin/env sh
+. &quot;$(dirname -- &quot;$0&quot;)/_/husky.sh&quot;
+
+pnpm exec lint-staged
+pnpm exec tsc --noEmit
+node scripts/validate-migrations.mjs
+node scripts/validate-no-raw-hex.mjs
+</code></pre>
+<h3 id="122-huskycommit-msg"><a class="heading-anchor" href="#122-huskycommit-msg" aria-label="Link para 12.2 .husky/commit-msg">#</a>12.2 <code>.husky/commit-msg</code></h3>
+<pre><code class="language-bash">pnpm exec commitlint --edit &quot;$1&quot;
+</code></pre>
+<h3 id="123-lint-stagedconfigjs"><a class="heading-anchor" href="#123-lint-stagedconfigjs" aria-label="Link para 12.3 lint-staged.config.js">#</a>12.3 <code>lint-staged.config.js</code></h3>
+<pre><code class="language-js">export default {
+  &quot;*.{ts,tsx}&quot;: [&quot;eslint --max-warnings 0 --fix&quot;, &quot;prettier --write&quot;],
+  &quot;*.{css,md,json}&quot;: [&quot;prettier --write&quot;],
+  &quot;supabase/migrations/*.sql&quot;: [&quot;node scripts/validate-migration-file.mjs&quot;],
+};
+</code></pre>
+<h3 id="124-eslint-customizado-eslintconfigjs"><a class="heading-anchor" href="#124-eslint-customizado-eslintconfigjs" aria-label="Link para 12.4 ESLint Customizado (eslint.config.js)">#</a>12.4 ESLint Customizado (<code>eslint.config.js</code>)</h3>
+<p>Regras <strong>hard-fail</strong>:</p>
+<pre><code class="language-js">import noRestricted from &quot;eslint-plugin-no-restricted-syntax&quot;;
+
+export default [
+  // Proibir hex em className
+  {
+    files: [&quot;src/**/*.{ts,tsx}&quot;],
+    rules: {
+      &quot;no-restricted-syntax&quot;: [&quot;error&quot;,
+        {
+          selector: &quot;Literal[value=/(text|bg|border|ring|shadow|from|to|via)-\\[#[0-9a-fA-F]{3,8}/]&quot;,
+          message: &quot;Hex literal em className é proibido. Use tokens semânticos em styles.css.&quot;,
+        },
+        {
+          selector: &quot;Literal[value=/shadow-\\[/]&quot;,
+          message: &quot;Shadow arbitrário proibido. Use --shadow-soft / --shadow-floating.&quot;,
+        },
+        {
+          selector: &quot;TSAnyKeyword&quot;,
+          message: &quot;Tipo 'any' proibido. Use unknown + narrow, ou tipos do Supabase.&quot;,
+        },
+      ],
+      &quot;@typescript-eslint/no-explicit-any&quot;: &quot;error&quot;,
+      &quot;@typescript-eslint/ban-ts-comment&quot;: [&quot;error&quot;, { &quot;ts-ignore&quot;: true, &quot;ts-expect-error&quot;: &quot;allow-with-description&quot; }],
+    },
+  },
+  // Proibir client.server fora de paths server-only
+  {
+    files: [&quot;src/components/**&quot;, &quot;src/hooks/**&quot;, &quot;src/routes/**/!(*.functions).{ts,tsx}&quot;],
+    rules: {
+      &quot;no-restricted-imports&quot;: [&quot;error&quot;, {
+        patterns: [{
+          group: [&quot;@/integrations/supabase/client.server&quot;, &quot;**/*.server&quot;],
+          message: &quot;Server-only. Use createServerFn ou requireSupabaseAuth.&quot;,
+        }],
+      }],
+    },
+  },
+];
+</code></pre>
+<h3 id="125-scripts-de-validacao"><a class="heading-anchor" href="#125-scripts-de-validacao" aria-label="Link para 12.5 Scripts de Validação">#</a>12.5 Scripts de Validação</h3>
+<ul>
+<li><code>scripts/validate-no-raw-hex.mjs</code> — varre <code>src/**/*.{ts,tsx}</code> por <code>#[0-9a-fA-F]{3,8}</code> em string literals e bloqueia.</li>
+<li><code>scripts/validate-migrations.mjs</code> — toda migration com <code>CREATE TABLE public.*</code> deve conter <code>GRANT</code> e <code>ENABLE ROW LEVEL SECURITY</code> no mesmo arquivo.</li>
+<li><code>scripts/audit-ui-theme.mjs</code> — já existente; integrar ao pre-push.</li>
+</ul>
+<hr />
+<h2 id="13-pipeline-cicd"><a class="heading-anchor" href="#13-pipeline-cicd" aria-label="Link para 13. PIPELINE CI/CD">#</a>13. PIPELINE CI/CD</h2>
+<h3 id="131-githubworkflowsciyml-esqueleto-canonico"><a class="heading-anchor" href="#131-githubworkflowsciyml-esqueleto-canonico" aria-label="Link para 13.1 .github/workflows/ci.yml (esqueleto canônico)">#</a>13.1 <code>.github/workflows/ci.yml</code> (esqueleto canônico)</h3>
+<pre><code class="language-yaml">name: CI
+on:
+  pull_request:
+  push: { branches: [main] }
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 9.12.0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20.11, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+
+  lint:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - run: pnpm lint
+      - run: node scripts/validate-no-raw-hex.mjs
+      - run: node scripts/validate-migrations.mjs
+
+  typecheck:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - run: pnpm exec tsc --noEmit
+
+  test:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - run: pnpm test --coverage
+      - uses: codecov/codecov-action@v4
+      - name: Enforce coverage ≥ 80%
+        run: node scripts/enforce-coverage.mjs 80
+
+  e2e:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - run: pnpm exec playwright install --with-deps
+      - run: pnpm build
+      - run: pnpm exec playwright test
+
+  db-drift:
+    needs: install
+    runs-on: ubuntu-latest
+    services:
+      postgres: { image: supabase/postgres:15, ports: [&quot;5432:5432&quot;], env: { POSTGRES_PASSWORD: postgres } }
+    steps:
+      - run: pnpm db:migrate:ci
+      - run: pnpm db:types:check    # falha se drift
+
+  build:
+    needs: [lint, typecheck, test, e2e, db-drift]
+    runs-on: ubuntu-latest
+    steps:
+      - run: pnpm build
+</code></pre>
+<h3 id="132-branch-protection"><a class="heading-anchor" href="#132-branch-protection" aria-label="Link para 13.2 Branch Protection">#</a>13.2 Branch Protection</h3>
+<ul>
+<li><code>main</code> exige todos os jobs verdes + 1 review + lockfile inalterado por bot.</li>
+<li>Merge tipo <code>squash</code> apenas; commits seguem Conventional Commits.</li>
+</ul>
+<h3 id="133-cobertura-minima"><a class="heading-anchor" href="#133-cobertura-minima" aria-label="Link para 13.3 Cobertura Mínima">#</a>13.3 Cobertura Mínima</h3>
+<ul>
+<li><strong>Vitest 80%</strong> linhas/branches (helpers, hooks, stores, máquinas XState).</li>
+<li><strong>Playwright</strong>: jornadas críticas obrigatórias:<ol>
+<li>Login email/senha + Google.</li>
+<li>Esqueci/Reset de senha.</li>
+<li>Agendamento end-to-end (XState).</li>
+<li>Aplicação de vacina pelo profissional.</li>
+<li>ACS busca ativa offline → online sync.</li>
+<li>Gestor altera permissão → audit log gravado.</li>
+</ol>
+</li>
+</ul>
+<hr />
+<h2 id="14-telemetria-e-observabilidade"><a class="heading-anchor" href="#14-telemetria-e-observabilidade" aria-label="Link para 14. TELEMETRIA E OBSERVABILIDADE">#</a>14. TELEMETRIA E OBSERVABILIDADE</h2>
+<h3 id="141-sentry-bootstrap"><a class="heading-anchor" href="#141-sentry-bootstrap" aria-label="Link para 14.1 Sentry — Bootstrap">#</a>14.1 Sentry — Bootstrap</h3>
+<pre><code class="language-ts">// src/telemetry/sentry.ts
+import * as Sentry from &quot;@sentry/react&quot;;
+
+export function initSentry() {
+  if (!import.meta.env.PROD) return;
+  Sentry.init({
+    dsn: import.meta.env.VITE_SENTRY_DSN,
+    environment: import.meta.env.VITE_ENV,
+    release: import.meta.env.VITE_RELEASE,
+    tracesSampleRate: 0.1,
+    replaysSessionSampleRate: 0.0,
+    replaysOnErrorSampleRate: 1.0,
+    integrations: [
+      Sentry.browserTracingIntegration(),
+      Sentry.replayIntegration({ maskAllText: true, blockAllMedia: true }),
+    ],
+    beforeSend(event) {
+      return maskPII(event);    // remove CPF, CNS, e-mail, telefone
+    },
+  });
+}
+</code></pre>
+<h3 id="142-errorboundary-obrigatorio-em-toda-rota"><a class="heading-anchor" href="#142-errorboundary-obrigatorio-em-toda-rota" aria-label="Link para 14.2 ErrorBoundary obrigatório em toda rota">#</a>14.2 ErrorBoundary obrigatório em toda rota</h3>
+<pre><code class="language-tsx">errorComponent: ({ error, reset }) =&gt; {
+  Sentry.captureException(error, { tags: { route: &quot;agendamento&quot; } });
+  return &lt;ModuleErrorFallback error={error} reset={reset} /&gt;;
+}
+</code></pre>
+<h3 id="143-mascaramento-de-pii-srctelemetrymaskts"><a class="heading-anchor" href="#143-mascaramento-de-pii-srctelemetrymaskts" aria-label="Link para 14.3 Mascaramento de PII (src/telemetry/mask.ts)">#</a>14.3 Mascaramento de PII (<code>src/telemetry/mask.ts</code>)</h3>
+<ul>
+<li>Regex CPF <code>\d{3}\.?\d{3}\.?\d{3}-?\d{2}</code> → <code>***.***.***-**</code>.</li>
+<li>E-mail → <code>***@dominio</code>.</li>
+<li>CNS (15 dígitos) → <code>••• ••• ••• ••••</code>.</li>
+<li>Aplicado em <code>beforeSend</code>, breadcrumbs e replay.</li>
+</ul>
+<h3 id="144-metricas-adicionais"><a class="heading-anchor" href="#144-metricas-adicionais" aria-label="Link para 14.4 Métricas adicionais">#</a>14.4 Métricas adicionais</h3>
+<ul>
+<li>Web Vitals (CLS, LCP, INP) → Sentry Performance.</li>
+<li>Custom spans: <code>pglite.query</code>, <code>outbox.drain</code>, <code>xstate.transition</code>.</li>
+</ul>
+<hr />
+<h2 id="15-gestao-de-dependencias"><a class="heading-anchor" href="#15-gestao-de-dependencias" aria-label="Link para 15. GESTÃO DE DEPENDÊNCIAS">#</a>15. GESTÃO DE DEPENDÊNCIAS</h2>
+<ul>
+<li><strong>pnpm exclusivo</strong>. <code>preinstall</code> hook bloqueia npm/yarn:</li>
+</ul>
+<pre><code class="language-json">&quot;scripts&quot;: { &quot;preinstall&quot;: &quot;npx only-allow pnpm&quot; }
+</code></pre>
+<ul>
+<li>Renovate/Dependabot configurado em grupos: <code>react</code>, <code>tanstack</code>, <code>supabase</code>, <code>testing</code>, <code>tooling</code>. PRs automáticas, mas merge manual após CI verde.</li>
+<li>Auditoria semanal: <code>pnpm audit --prod --audit-level=high</code> no CI.</li>
+</ul>
+<hr />
+<h2 id="16-seguranca-aplicacional"><a class="heading-anchor" href="#16-seguranca-aplicacional" aria-label="Link para 16. SEGURANÇA APLICACIONAL">#</a>16. SEGURANÇA APLICACIONAL</h2>
+<h3 id="161-headers-cloudflare-workers-srcserverts"><a class="heading-anchor" href="#161-headers-cloudflare-workers-srcserverts" aria-label="Link para 16.1 Headers (Cloudflare Workers — src/server.ts)">#</a>16.1 Headers (Cloudflare Workers — <code>src/server.ts</code>)</h3>
+<pre><code>Content-Security-Policy: default-src 'self'; img-src 'self' data: https:; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self' https://*.supabase.co https://*.sentry.io; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: geolocation=(self), camera=(), microphone=()
+</code></pre>
+<p>Violações CSP → endpoint <code>/api/public/csp-report</code> → Sentry.</p>
+<h3 id="162-secrets"><a class="heading-anchor" href="#162-secrets" aria-label="Link para 16.2 Secrets">#</a>16.2 Secrets</h3>
+<ul>
+<li>Frontend: somente <code>VITE_SUPABASE_URL</code>, <code>VITE_SUPABASE_PUBLISHABLE_KEY</code>, <code>VITE_SENTRY_DSN</code>, <code>VITE_ENV</code>, <code>VITE_RELEASE</code>.</li>
+<li>Backend: <code>SUPABASE_SERVICE_ROLE_KEY</code> (gerenciado pela Lovable Cloud), <code>WEBHOOK_SECRET</code>, <code>LOVABLE_API_KEY</code>.</li>
+<li>Nunca <code>console.log</code> de secrets. ESLint regra bloqueia <code>console.log(process.env...)</code>.</li>
+</ul>
+<hr />
+<h2 id="17-lgpd-auditoria-mascaramento"><a class="heading-anchor" href="#17-lgpd-auditoria-mascaramento" aria-label="Link para 17. LGPD, AUDITORIA, MASCARAMENTO">#</a>17. LGPD, AUDITORIA, MASCARAMENTO</h2>
+<h3 id="171-audit-logs-imutavel"><a class="heading-anchor" href="#171-audit-logs-imutavel" aria-label="Link para 17.1 audit_logs — Imutável">#</a>17.1 <code>audit_logs</code> — Imutável</h3>
+<p>Trigger <code>prevent_audit_log_mutation</code> impede UPDATE/DELETE (exceto cascade SET NULL). Toda ação sensível chama <code>log_audit_event</code>.</p>
+<h3 id="172-consentimento"><a class="heading-anchor" href="#172-consentimento" aria-label="Link para 17.2 Consentimento">#</a>17.2 Consentimento</h3>
+<ul>
+<li>Tabela <code>lgpd_consents</code> (a criar): <code>user_id, policy_version, accepted_at, ip, user_agent</code>.</li>
+<li>Rota <code>/lgpd</code> força nova aceitação ao subir <code>policy_version</code>.</li>
+</ul>
+<h3 id="173-mascaramento-ui"><a class="heading-anchor" href="#173-mascaramento-ui" aria-label="Link para 17.3 Mascaramento UI">#</a>17.3 Mascaramento UI</h3>
+<ul>
+<li><code>formatCPF(cpf, { masked: true })</code> por padrão. Desmascarar exige <code>has_permission('pii.view_full')</code> + log de auditoria <code>patient_profile_viewed</code>.</li>
+</ul>
+<hr />
+<h2 id="18-19-modulos"><a class="heading-anchor" href="#18-19-modulos" aria-label="Link para 18-19. MÓDULOS">#</a>18-19. MÓDULOS</h2>
+<p>Cada módulo segue contrato:</p>
+<ol>
+<li><strong>Rota</strong> <code>src/routes/_authenticated/modulos.&lt;nome&gt;.tsx</code>.</li>
+<li><strong>Store XState/Zustand</strong> se houver fluxo.</li>
+<li><strong>Hooks de dados</strong> em <code>src/lib/use-&lt;recurso&gt;.ts</code> (TanStack Query).</li>
+<li><strong>Componentes</strong> em <code>src/components/&lt;modulo&gt;/</code>.</li>
+<li><strong>Cache offline</strong> se o módulo é usado por ACS.</li>
+<li><strong>Testes</strong>: unit (hooks/stores) + e2e (jornada).</li>
+</ol>
+<p>Tabela resumo: ver Anexo A (mantida da v1, atualizada com Nutrição completa).</p>
+<hr />
+<h2 id="20-ui-kit-contratos"><a class="heading-anchor" href="#20-ui-kit-contratos" aria-label="Link para 20. UI-KIT — CONTRATOS">#</a>20. UI-KIT — CONTRATOS</h2>
+<table>
+<thead>
+<tr>
+  <th>Componente</th>
+  <th>Props críticas</th>
+  <th>Invariante</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>StatusPill</code></td>
+  <td><code>tone: success\|warn\|danger\|info\|process</code></td>
+  <td>nunca aceitar cor crua</td>
+</tr>
+<tr>
+  <td><code>Sparkline</code></td>
+  <td><code>data: number[]</code>, <code>width</code>, <code>height</code></td>
+  <td>dimensões fixas (CLS)</td>
+</tr>
+<tr>
+  <td><code>GoalProgressBar</code></td>
+  <td><code>percent: 0..100</code>, <code>status</code></td>
+  <td>clamp em range</td>
+</tr>
+<tr>
+  <td><code>RulerPicker</code></td>
+  <td><code>value</code>, <code>min</code>, <code>max</code>, <code>step</code>, <code>onChange</code></td>
+  <td>virtualizado</td>
+</tr>
+<tr>
+  <td><code>CircleArrowButton</code></td>
+  <td><code>direction</code>, <code>onClick</code>, <code>aria-label</code> obrigatório</td>
+  <td>44px mínimo</td>
+</tr>
+<tr>
+  <td><code>PremiumDarkCard</code></td>
+  <td><code>as</code>, <code>radius</code></td>
+  <td>rounded-[32px] padrão</td>
+</tr>
+<tr>
+  <td><code>AskBar</code></td>
+  <td><code>onSubmit</code></td>
+  <td>input controlado</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="21-performance-budget"><a class="heading-anchor" href="#21-performance-budget" aria-label="Link para 21. PERFORMANCE BUDGET">#</a>21. PERFORMANCE BUDGET</h2>
+<table>
+<thead>
+<tr>
+  <th>Métrica</th>
+  <th>Meta</th>
+  <th>Bloqueio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>LCP (mobile 4G)</td>
+  <td>&lt; 2.5s</td>
+  <td>CI Lighthouse</td>
+</tr>
+<tr>
+  <td>INP</td>
+  <td>&lt; 200ms</td>
+  <td>Sentry alerta</td>
+</tr>
+<tr>
+  <td>CLS</td>
+  <td><strong>0.00</strong></td>
+  <td>Visual regression Playwright</td>
+</tr>
+<tr>
+  <td>JS inicial (gzip)</td>
+  <td>&lt; 180KB</td>
+  <td><code>size-limit</code></td>
+</tr>
+<tr>
+  <td>Largest route chunk</td>
+  <td>&lt; 80KB</td>
+  <td><code>size-limit</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="22-acessibilidade-wcag-22-aa"><a class="heading-anchor" href="#22-acessibilidade-wcag-22-aa" aria-label="Link para 22. ACESSIBILIDADE — WCAG 2.2 AA">#</a>22. ACESSIBILIDADE — WCAG 2.2 AA</h2>
+<ul>
+<li>Contraste mínimo 4.5:1 (verificado em <code>styles.css</code> via <code>npm:wcag-contrast</code>).</li>
+<li>Toda interação por teclado; focus ring usa <code>--color-ring</code>.</li>
+<li><code>aria-label</code> obrigatório em botões-ícone (ESLint rule <code>jsx-a11y/control-has-associated-label</code>).</li>
+<li>Movimento respeita <code>prefers-reduced-motion</code>.</li>
+</ul>
+<hr />
+<h2 id="23-internacionalizacao"><a class="heading-anchor" href="#23-internacionalizacao" aria-label="Link para 23. INTERNACIONALIZAÇÃO">#</a>23. INTERNACIONALIZAÇÃO</h2>
+<ul>
+<li>pt-BR como default; <code>react-intl</code> ou <code>lingui</code> se mais idiomas forem necessários.</li>
+<li>Datas: <code>date-fns</code> com <code>ptBR</code> locale. <strong>Proibido</strong> <code>toLocaleDateString</code> solto.</li>
+</ul>
+<hr />
+<h2 id="24-runbooks"><a class="heading-anchor" href="#24-runbooks" aria-label="Link para 24. RUNBOOKS">#</a>24. RUNBOOKS</h2>
+<h3 id="241-outbox-poison-message"><a class="heading-anchor" href="#241-outbox-poison-message" aria-label="Link para 24.1 Outbox poison message">#</a>24.1 Outbox poison message</h3>
+<ol>
+<li>Sentry alerta <code>outbox-poison</code> (&gt;5 tentativas).</li>
+<li>SRE inspeciona entry via IndexedDB DevTools.</li>
+<li>Fix: corrige payload ou marca <code>dead_letter=true</code>.</li>
+</ol>
+<h3 id="242-drift-de-tipos-supabase"><a class="heading-anchor" href="#242-drift-de-tipos-supabase" aria-label="Link para 24.2 Drift de tipos Supabase">#</a>24.2 Drift de tipos Supabase</h3>
+<ol>
+<li>CI <code>db-drift</code> falha.</li>
+<li>Dev roda <code>pnpm db:types</code> localmente, commita.</li>
+</ol>
+<h3 id="243-service-worker-preso"><a class="heading-anchor" href="#243-service-worker-preso" aria-label="Link para 24.3 Service Worker preso">#</a>24.3 Service Worker preso</h3>
+<ol>
+<li>Usuário com tela branca → acessar <code>?sw=off</code>.</li>
+<li>Worker kill-switch desregistra e recarrega.</li>
+</ol>
+<hr />
+<h2 id="25-anti-hallucination-protocol-18-pontos-verificaveis-em-ci"><a class="heading-anchor" href="#25-anti-hallucination-protocol-18-pontos-verificaveis-em-ci" aria-label="Link para 25. ANTI-HALLUCINATION PROTOCOL — 18 PONTOS (VERIFICÁVEIS EM CI)">#</a>25. ANTI-HALLUCINATION PROTOCOL — 18 PONTOS (VERIFICÁVEIS EM CI)</h2>
+<ol>
+<li>✅ Zero hex literal em <code>src/**/*.{ts,tsx}</code> (<code>validate-no-raw-hex</code>).</li>
+<li>✅ Zero <code>any</code> (ESLint).</li>
+<li>✅ Toda migration tem GRANT + RLS (<code>validate-migrations</code>).</li>
+<li>✅ Types Supabase sincronizados (CI <code>db-drift</code>).</li>
+<li>✅ Toda rota com loader tem <code>errorComponent</code> + <code>notFoundComponent</code> (regra ESLint custom).</li>
+<li>✅ Toda exceção captura Sentry antes do fallback (lint custom).</li>
+<li>✅ Touch targets ≥ 44px (Playwright a11y).</li>
+<li>✅ CLS = 0 (Playwright visual diff).</li>
+<li>✅ <code>useTransition</code> em toda troca de tab (lint custom).</li>
+<li>✅ Skeletons dimensionados em width+height (lint custom).</li>
+<li>✅ Sem <code>localStorage</code> para role/auth state (lint custom).</li>
+<li>✅ Sem <code>client.server</code> em componentes (ESLint <code>no-restricted-imports</code>).</li>
+<li>✅ Toda tabela offline-eligible tem <code>client_uuid UNIQUE</code>.</li>
+<li>✅ Cobertura Vitest ≥ 80%.</li>
+<li>✅ Jornadas críticas Playwright verdes.</li>
+<li>✅ Lockfile imutável por PR (CI <code>lockfile-lint</code>).</li>
+<li>✅ Sem ícones fora de <code>lucide-react</code>.</li>
+<li>✅ CSP headers presentes no response (smoke test).</li>
+</ol>
+<hr />
+<h2 id="26-glossario-e-referencias"><a class="heading-anchor" href="#26-glossario-e-referencias" aria-label="Link para 26. GLOSSÁRIO E REFERÊNCIAS">#</a>26. GLOSSÁRIO E REFERÊNCIAS</h2>
+<ul>
+<li><strong>ACS</strong> — Agente Comunitário de Saúde.</li>
+<li><strong>CLS</strong> — Cumulative Layout Shift.</li>
+<li><strong>PGlite</strong> — Postgres compilado em WASM, persistido em IndexedDB.</li>
+<li><strong>Outbox</strong> — fila local de mutações pendentes de sync.</li>
+<li><strong>SSoT</strong> — Single Source of Truth.</li>
+<li><strong>RBAC</strong> — Role-Based Access Control.</li>
+</ul>
+<p>Referências externas: TanStack Start v1 docs, Supabase RLS guide, Sentry React SDK, WCAG 2.2, LGPD Lei 13.709/2018.</p>
+<hr />
+<h2 id="anexo-a-catalogo-completo-de-tabelas-colunas-chave-e-dominio"><a class="heading-anchor" href="#anexo-a-catalogo-completo-de-tabelas-colunas-chave-e-dominio" aria-label="Link para ANEXO A — Catálogo Completo de Tabelas, Colunas-chave e Domínio">#</a>ANEXO A — Catálogo Completo de Tabelas, Colunas-chave e Domínio</h2>
+<p>(ver <code>saude-para-todos-documentacao.md</code> v1 §4 — mantido por referência; este documento adiciona as colunas <code>client_uuid UUID UNIQUE</code> requeridas para offline em: <code>vaccination_records</code>, <code>chronic_medication_intakes</code>, <code>mental_health_logs</code>, <code>health_care_logs</code>, <code>chronic_care_logs</code>, <code>appointments</code>, <code>family_dependents</code>.)</p>
+<h2 id="anexo-b-convencao-de-commits"><a class="heading-anchor" href="#anexo-b-convencao-de-commits" aria-label="Link para ANEXO B — Convenção de Commits">#</a>ANEXO B — Convenção de Commits</h2>
+<pre><code>feat(agenda): adiciona máquina XState para agendamento multi-etapa
+fix(offline): drena outbox ao reconectar
+chore(deps): pin react 19.0.3
+docs(arch): atualiza constitution v2
+test(e2e): cobre jornada vacinação
+</code></pre>
+<h2 id="anexo-c-checklist-de-pr-template-githubpull-request-templatemd"><a class="heading-anchor" href="#anexo-c-checklist-de-pr-template-githubpull-request-templatemd" aria-label="Link para ANEXO C — Checklist de PR (template .github/pull_request_template.md)">#</a>ANEXO C — Checklist de PR (template <code>.github/pull_request_template.md</code>)</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Sem hex literal novo</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Sem <code>any</code></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Migration com GRANT + RLS (se houver)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Tipos Supabase regenerados (se houver migration)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Testes Vitest adicionados/atualizados</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Playwright atualizado (se jornada crítica)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Sentry breadcrumbs/tags adicionados em novos fluxos</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Offline path coberto (se módulo ACS)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Acessibilidade verificada (teclado + leitor de tela)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Performance budget respeitado (<code>pnpm size</code>)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Documentação atualizada</li>
+</ul>
+<hr />
+<p><strong>FIM DO DOCUMENTO — v2.0</strong>
+Mudanças desta versão devem abrir RFC em <code>docs/rfcs/</code> antes de merge.</p>
+
+      <footer class="footer">Arquivo gerado a partir do Markdown enviado, com CSS embutido para hospedagem estática pública.</footer>
+    </main>
+  </div>
+</body>
+</html>
